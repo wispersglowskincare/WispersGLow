@@ -1,0 +1,8 @@
+{% if before_image and after_image %}
+<div class="comparison" data-comparison style="--split: 50%">
+  <img class="comparison-image" src="{{ url_for('static', filename=after_image) }}" alt="{{ after_alt or 'After image' }}">
+  <div class="comparison-before"><img class="comparison-image" src="{{ url_for('static', filename=before_image) }}" alt="{{ before_alt or 'Before image' }}"></div>
+  <span class="comparison-label label-before">BEFORE</span><span class="comparison-label label-after">AFTER</span>
+  <button class="comparison-handle" type="button" aria-label="Drag to compare before and after"><span>↔</span></button>
+</div>
+{% endif %}

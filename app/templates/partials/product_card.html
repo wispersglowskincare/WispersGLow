@@ -1,0 +1,8 @@
+<article class="product-card">
+  <a class="product-visual" href="{{ url_for('main.product', slug=product.slug) }}">
+    <img src="{{ url_for('static', filename=product.main_image) }}" alt="{{ product.name }}" draggable="false">
+    {% if product.before_image and product.after_image %}<div class="card-comparison" role="group" aria-label="Before and after comparison"><img src="{{ url_for('static', filename=product.after_image) }}" alt="" draggable="false" /><div><img src="{{ url_for('static', filename=product.before_image) }}" alt="" draggable="false" /></div><button class="card-comparison-handle" type="button" aria-label="Drag to compare before and after"><span>↔</span></button></div>{% endif %}
+    {% if product.promotion_enabled %}<span class="product-tag">Gift inside</span>{% elif product.featured %}<span class="product-tag">Featured</span>{% endif %}
+  </a>
+  <div class="product-info"><div class="product-kicker">Ritual {{ "%02d"|format(product.id) }}</div><h3><a href="{{ url_for('main.product', slug=product.slug) }}">{{ product.name }}</a></h3><p>{{ product.short_description }}</p><div class="product-row"><strong>{{ product.price|money }}</strong><a href="{{ url_for('main.product', slug=product.slug) }}" class="text-link">View ritual ↗</a></div></div>
+</article>
