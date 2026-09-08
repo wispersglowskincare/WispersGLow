@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Shop the edit — Wispers Glow{% endblock %}
+{% block content %}
+<section class="page-intro section-shell"><span class="section-index">THE FULL EDIT</span><h1>Find your<br><em>everyday glow.</em></h1><p>Choose the pieces that make your routine feel more like yours.</p><form class="search-form" method="get"><input name="q" value="{{ query }}" placeholder="Search the edit" aria-label="Search products"><button class="button button-dark">Search ↗</button></form></section>
+<section class="section-shell shop-grid">{% for product in products %}{% include 'partials/product_card.html' %}{% else %}<p>No rituals found. Try another search.</p>{% endfor %}</section>
+{% endblock %}

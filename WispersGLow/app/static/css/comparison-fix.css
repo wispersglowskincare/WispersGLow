@@ -1,0 +1,46 @@
+.comparison-before {
+    width: 100%;
+    clip-path: inset(0 calc(100% - var(--split)) 0 0);
+}
+
+.comparison-before .comparison-image {
+    width: 100%;
+    max-width: none;
+}
+
+.card-comparison>div img {
+    width: 100%;
+    max-width: none;
+}
+
+.card-comparison>div {
+    width: 100%;
+    clip-path: inset(0 calc(100% - var(--split)) 0 0);
+}
+
+.card-comparison-handle {
+    position: absolute;
+    z-index: 4;
+    left: var(--split);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border: 1px solid white;
+    border-radius: 50%;
+    background: var(--plum);
+    color: white;
+    box-shadow: 0 5px 15px #0003;
+    cursor: ew-resize;
+}
+
+.card-comparison-handle span {
+    display: block;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    text-transform: none;
+    letter-spacing: 0;
+}

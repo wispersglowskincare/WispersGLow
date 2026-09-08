@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Contact — Wispers Glow{% endblock %}
+{% block content %}
+<section class="page-intro section-shell"><span class="section-index">COME SAY HI</span><h1>Let's talk<br><em>skin rituals.</em></h1><p>Questions about an order or choosing a ritual? We are one WhatsApp message away.</p><a class="button button-dark" href="{{ url_for('main.order_whatsapp') }}">Message Wispers Glow ↗</a></section><section class="contact-grid section-shell"><div><span class="footer-label">WhatsApp</span><p>{{ settings.whatsapp_number }}</p></div><div><span class="footer-label">Delivery</span><p>{{ settings.delivery_text }}</p></div><div><span class="footer-label">A small note</span><p>Orders are confirmed personally. This site does not process card payments.</p></div></section>
+{% endblock %}

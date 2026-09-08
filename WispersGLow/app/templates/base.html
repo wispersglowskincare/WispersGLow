@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Wispers Glow — considered skincare rituals for your everyday glow.">
+  <title>{% block title %}Wispers Glow{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/comparison-fix.css') }}">
+</head>
+<body>
+  <div class="announcement">
+    <span class="eyebrow">WISPERS GLOW / ISSUE 01</span>
+    {% if site.delivery_enabled %}<span>{{ site.delivery_text }}</span>{% endif %}
+    <span class="announcement-meta">NIGERIA · EST. FOR YOUR RITUAL</span>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('main.home') }}" aria-label="Wispers Glow home">
+      <span class="brand-mark">WG</span><span><strong>Wispers Glow</strong><small>SKINCARE STUDIO</small></span>
+    </a>
+    <button class="menu-toggle" data-menu-toggle aria-label="Open menu">Menu <span>+</span></button>
+    <nav class="site-nav" data-menu>
+      <a href="{{ url_for('main.home') }}">Home</a>
+      <a href="{{ url_for('main.shop') }}">Shop</a>
+      <a href="{{ url_for('main.about') }}">Our story</a>
+      <a href="{{ url_for('main.contact') }}">Contact</a>
+      <a class="nav-bag" href="{{ url_for('main.cart') }}">Bag <span>{{ cart_count }}</span></a>
+      <a class="button button-dark nav-whatsapp" href="{{ url_for('main.order_whatsapp') }}">Order on WhatsApp ↗</a>
+    </nav>
+  </header>
+  <aside class="floating-cart" data-floating-cart aria-label="Quick access to your bag">
+    <a class="floating-cart-link" href="{{ url_for('main.cart') }}" aria-label="Open bag, {{ cart_count }} items">
+      <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+      <span class="floating-cart-count">{{ cart_count }}</span>
+    </a>
+    <button class="floating-cart-hide" type="button" data-hide-cart aria-label="Hide floating bag">×</button>
+  </aside>
+  <button class="floating-cart-restore" type="button" data-show-cart aria-label="Show floating bag">Bag <span>{{ cart_count }}</span></button>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer">
+    <div class="footer-top"><div><div class="footer-brand">Wispers<br><em>Glow</em></div><p>Soft rituals. Clear intention.<br>Made for the skin you live in.</p></div><div><span class="footer-label">Explore</span><a href="{{ url_for('main.shop') }}">Shop the edit</a><a href="{{ url_for('main.about') }}">Our story</a><a href="{{ url_for('main.contact') }}">Contact</a></div><div><span class="footer-label">Need a hand?</span><p>Chat with us on WhatsApp<br>{{ site.whatsapp_number or '+234 903 206 3444' }}</p><a class="footer-link" href="{{ url_for('main.order_whatsapp') }}">Start a conversation ↗</a></div></div>
+    <div class="footer-bottom"><span>© {{ now().year if now is defined else 2026 }} Wispers Glow</span><span>Thoughtful care, no loud promises.</span><a href="{{ url_for('auth.login') }}">Studio login</a></div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+</body>
+</html>
