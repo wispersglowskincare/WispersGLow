@@ -1,7 +1,7 @@
-from flask import Blueprint, current_app, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, current_app, flash, jsonify, redirect, render_template, request, session, url_for
 
 from .models import Product, Promotion, SiteSettings, Testimonial
-from .utils import cart_items, csrf_token, whatsapp_link
+from .utils import cart_items, csrf_token, csrf_valid, whatsapp_link
 
 main_bp = Blueprint("main", __name__)
 
@@ -41,7 +41,10 @@ def add_to_cart(product_id):
     current = int(cart.get(str(product_id), 0))
     cart[str(product_id)] = min(product.stock, current + quantity)
     session["cart"] = cart
-    flash(f"{product.name} added to your bag.", "success")
+    message = f"{product.name} added to your bag."
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return jsonify(message=message, cart_count=sum(cart.values()))
+    flash(message, "success")
     return redirect(request.referrer or url_for("main.shop"))
 
 
@@ -80,15 +83,26 @@ def remove_from_cart(product_id):
     return redirect(url_for("main.cart"))
 
 
-@main_bp.get("/order/whatsapp")
+@main_bp.route("/order/whatsapp", methods=["GET", "POST"])
 def order_whatsapp():
     items, total = cart_items(session.get("cart", {}))
     if not items:
         flash("Add something to your bag before ordering.", "error")
         return redirect(url_for("main.shop"))
+    customer_name = phone = email = None
+    if request.method == "POST":
+        if not csrf_valid():
+            flash("Your order form expired. Please try again.", "error")
+            return redirect(url_for("main.cart"))
+        customer_name = request.form.get("customer_name", "").strip()
+        phone = request.form.get("phone", "").strip()
+        email = request.form.get("email", "").strip()
+        if not customer_name:
+            flash("Please enter your name before ordering.", "error")
+            return redirect(url_for("main.cart"))
     settings = SiteSettings.query.first()
     number = settings.whatsapp_number if settings else current_app.config["WHATSAPP_NUMBER"]
-    return redirect(whatsapp_link(items, total, number))
+    return redirect(whatsapp_link(items, total, number, customer_name, phone, email))
 
 
 @main_bp.get("/about")

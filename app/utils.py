@@ -59,11 +59,19 @@ def cart_items(cart):
     return products, total
 
 
-def whatsapp_link(items, total, number):
+def whatsapp_link(items, total, number, customer_name=None, phone=None, email=None):
     lines = ["Hello Wispers Glow, I would like to place an order.", "", "Products:"]
     for item in items:
         lines.append(f"{item['product'].name} × {item['quantity']}")
-    lines.extend(["", f"Estimated total: ₦{total:,.0f}", "", "Please let me know the next steps."])
+    customer_details = [f"Name: {customer_name}"] if customer_name else []
+    if phone:
+        customer_details.append(f"Phone: {phone}")
+    if email:
+        customer_details.append(f"Email: {email}")
+    lines.extend(["", f"Estimated total: ₦{total:,.0f}"])
+    if customer_details:
+        lines.extend(["", "Customer details:", *customer_details])
+    lines.extend(["", "Please let me know the next steps."])
     return f"https://wa.me/{number}?text={quote(chr(10).join(lines))}"
 
 
